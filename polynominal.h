@@ -4,12 +4,18 @@
 #include <complex>
 #include <list>
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 template<typename T>
+T maximum(T a, T b) {
+	if (a > b) { return a; }
+	return b;
+}
+template<typename T>
 struct Coef {
-	T value;
 	int Mystep;
+	T value;
 	Coef(T value, int Mystep) {
 		this->value = value;
 		this->Mystep = Mystep;
@@ -35,8 +41,25 @@ public:
 	//Polynominal(Polynominal& other) const;
 	~Polynominal();
 	void set_coef(T value, int i);
-	//Polynominal operator +(Polynominal& other)const;
-	//Polynominal operator -(Polynominal& other)const;
+	Polynominal operator +(Polynominal& other)const;
+	Polynominal operator -(Polynominal& other)const;
+	Polynominal operator *(T multiplier) const;
+	T valueX(int x)const;
 	T operator[](int i)const;
-
+	//int equation_roots(T*& arr) const;
+	friend ostream& operator<<(ostream& os, const Polynominal<T> poly) {
+		for (auto iter = begin(); iter != end(); ++iter) {
+			Coef<T> tmp = *iter;
+			if ((tmp.Mystep < step) && (tmp.Mystep == 0)) {
+				os << tmp.value << " + ";
+			}
+			else if (tmp.Mystep < step) {
+				os << tmp.value << "x^" << tmp.Mystep << " + ";
+			}
+			else {
+				os << tmp.value << "x^" << tmp.Mystep;
+			}
+		}
+		return os;
+	}
 };
