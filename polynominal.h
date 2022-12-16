@@ -46,7 +46,7 @@ public:
 	Polynominal operator *(T multiplier) const;
 	T valueX(int x)const;
 	T operator[](int i)const;
-	//int equation_roots(T*& arr) const;
+	int equation_roots(T*& arr) const;
 	friend ostream& operator<<(ostream& os, const Polynominal<T> poly) {
 		for (auto iter = begin(); iter != end(); ++iter) {
 			Coef<T> tmp = *iter;

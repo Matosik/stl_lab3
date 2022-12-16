@@ -103,6 +103,87 @@ Polynominal<T> Polynominal<T>::operator *(T multiplier)const {
 	return newPoly;
 
 }
+template <typename T>
+int Polynominal<T>::equation_roots(T*& arr)const {
+	auto iter = this->cbegin();
+	Coef<T> tmp;
+	if (this->step == 2)
+	{
+		T coef_s0 = T(0);
+		T coef_s1 = T(0);
+		T coef_s2 = T(0);
+		while (iter != cend()) {
+			tmp = *iter;
+			if (tmp.Mystep == 0) {
+				coef_s0 = tmp.value;
+			}
+			else if (tmp.Mystep == 1) {
+				coef_s1 = tmp.value;
+			}
+			else if (tmp.Mystep == 2) {
+				coef_s2 = tmp.value;
+			}
+			++iter;
+		}
+		T disc;
+		T x1;
+		T x2;
+		disc = pow(coef_s1, T(2)) - T(4) * coef_s2 * coef_s0;
+		if (disc > T(0))
+		{
+			x1 = (-coef_s1 + sqrt(coef_s1)) / (T(2) * coef_s2);
+			x2 = (-coef_s1 - sqrt(coef_s1)) / (T(2) * coef_s2);
+			arr[0] = x1;
+			arr[1] = x2;
+			return 2;
+		}
+		else if (disc == T(0))
+		{
+			x1 = (-coef_s1 / (T(2) * coef_s2));
+			arr[0] = x1;
+			return 1;
+		}
+		else if (disc < T(0))
+		{
+			string error = "действительных корней нет :(";
+			throw error;
+		}
+	}
+	else if (this->step == 1)
+	{
+		T coef_s0 = T(0);
+		T coef_s1 = T(0);
+		while (iter != cend()) {
+			tmp = *iter;
+			if (tmp.Mystep == 0) {
+				coef_s0 = tmp.value;
+			}
+			else if (tmp.Mystep == 1) {
+				coef_s1 = tmp.value;
+			}
+		}
+		if ((coef_s0 == T(0)) && (coef_s1 == T(0)))
+		{
+			string error = "(- ; +)";
+			throw error;
+		}
+		else if ((coef_s0 == T(0)) && (coef_s1 == T(0)))
+		{
+			arr[0] = 0;
+			return 1;
+		}
+		else if ((coef_s0 != T(0)) && (coef_s1 == T(0)))
+		{
+			string error = "Корней нет!!!! у нас уравнение вида 0*x = 'value' ";
+			throw error;
+		}
+	}
+	else if (this->step > 2)
+	{
+		string error = "Я не умею решать уровнения больше второй степени -_- ";
+		throw error;
+	}
+}
 template class Polynominal<int>;
 template class Polynominal<float>;
 template class Polynominal<double>;

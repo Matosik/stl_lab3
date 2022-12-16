@@ -241,9 +241,9 @@ menu1:
 				goto menu1;
 			}
 
-			//case 56: // поиска корней 1 и 2 степеней
-			//	roots(coll[i]);
-			//	goto menu1;
+			case 56: // поиска корней 1 и 2 степеней
+				roots(coll[i]);
+				goto menu1;
 		case 75: // стрелочки ОК
 			if (i == 0)
 			{
