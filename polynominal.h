@@ -37,23 +37,29 @@ public:
 	auto cbegin() const { return data.cbegin(); }
 
 	auto cend() const { return data.cend(); }
+
+	auto crbegin() const { return data.crbegin(); }
+
+	auto crend() const { return data.crend(); }
 	Polynominal(int step);
+
 	//Polynominal(Polynominal& other) const;
 	~Polynominal();
 	void set_coef(T value, int i);
-	Polynominal operator +(Polynominal& other)const;
-	Polynominal operator -(Polynominal& other)const;
+	Polynominal operator +(Polynominal<T>& other)const;
+	Polynominal operator -(Polynominal<T>& other)const;
 	Polynominal operator *(T multiplier) const;
-	T valueX(int x)const;
+	T valueX(T x)const;
 	T operator[](int i)const;
 	int equation_roots(T*& arr) const;
-	friend ostream& operator<<(ostream& os, const Polynominal<T> poly) {
-		for (auto iter = begin(); iter != end(); ++iter) {
+	friend ostream& operator << (ostream& os, const Polynominal<T> poly) {
+		;
+		for (auto iter = poly.cbegin(); iter != poly.cend(); ++iter) {
 			Coef<T> tmp = *iter;
-			if ((tmp.Mystep < step) && (tmp.Mystep == 0)) {
+			if ((tmp.Mystep < poly.step) && (tmp.Mystep == 0)) {
 				os << tmp.value << " + ";
 			}
-			else if (tmp.Mystep < step) {
+			else if (tmp.Mystep < poly.step) {
 				os << tmp.value << "x^" << tmp.Mystep << " + ";
 			}
 			else {

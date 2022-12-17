@@ -3,6 +3,9 @@
 #include "polynominal.h"
 
 
+
+
+
 int menu1()
 {
 	cout << "\n\t'->' - Cледуюий элемент\n\t'<-' - предыдуший элемент"; // 77 75 ok===============
@@ -67,7 +70,7 @@ T check()
 }
 
 template <typename T>
-void add_collection(vector<T>& coll, int& size)
+void add_collection(vector<Polynominal<T>>& coll, int& size)
 {
 	system("cls");
 	size++;
@@ -88,13 +91,13 @@ void add_collection(vector<T>& coll, int& size)
 	{
 		cout << "\tкоэффициет перед х^" << i << " - ";
 		value = check<T>();
-		tmp.set_coef(i, value);
+		tmp.set_coef(value, i);
 	}
 	coll.push_back(tmp);
 }
 
 template <typename T>
-void roots(Polynominal<T> coll)
+void boobs(Polynominal<T> coll)
 {
 	system("cls");
 	T* root = new T[2];
@@ -116,12 +119,11 @@ void roots(Polynominal<T> coll)
 }
 
 template <typename T>
-int MainMenu()
-{
+int MainMenu() {
 	int size = 0;
 	int i = 0;
 	int index;
-	vector<Polynominal> coll;
+	vector<Polynominal<T>> coll;
 	coll.reserve(5);
 	T x;
 	T value;
@@ -144,6 +146,7 @@ menu1:
 	}
 	else
 	{
+		auto iter = coll.begin();
 		cout << "index [" << i << "]"
 			<< "\t\t\t\t";
 		cout << coll[i] << " = 0";
@@ -194,7 +197,6 @@ menu1:
 			_getch();
 			goto menu1;
 		case 8: // удаление элемента из коллекции 
-			auto iter = coll.begin();
 			advance(iter, i);
 			coll.erase(iter);
 			goto menu1;
@@ -241,9 +243,9 @@ menu1:
 				goto menu1;
 			}
 
-			case 56: // поиска корней 1 и 2 степеней
-				roots(coll[i]);
-				goto menu1;
+		case 56: // поиска корней 1 и 2 степеней
+			boobs(coll[i]);
+			goto menu1;
 		case 75: // стрелочки ОК
 			if (i == 0)
 			{

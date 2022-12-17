@@ -1,6 +1,29 @@
 #include "polynominal.h"
 
 template <typename T>
+inline bool operator>(const complex<T> a, const complex<T> b)
+{
+	return ((a.real() > b.real()) && (a.imag() > b.imag()));
+}
+
+template <typename T>
+inline bool operator<(const complex<T> a, const complex<T> b)
+{
+	return ((a.real() < b.real()) && (a.imag() < b.imag()));
+}
+
+template <typename T>
+inline bool operator<=(const complex<T> a, const complex<T> b)
+{
+	return ((a.real() <= b.real()) && (a.imag() <= b.imag()));
+}
+template<typename T>
+inline bool operator>=(const complex<T> a, const complex<T> b)
+{
+	return ((a.real() >= b.real()) && (a.imag() >= b.imag()));
+}
+
+template <typename T>
 Polynominal<T>::Polynominal(int step) {
 	this->step = step;
 }
@@ -24,7 +47,7 @@ Polynominal<T>::~Polynominal() {
 
 template<typename T>
 T Polynominal<T>::operator[](int i) const {
-	if ((i > step - 1) || (i < 0)) {
+	if ((i > step) || (i < 0)) {
 		string a = "Invalid index";
 		throw a;
 	}
@@ -36,20 +59,21 @@ T Polynominal<T>::operator[](int i) const {
 }
 
 template <typename T>
-T Polynominal<T>::valueX(int x) const {
+T Polynominal<T>::valueX(T x) const {
 	T answer = T(0);
 	for (auto iter = cbegin(); iter != cend(); ++iter) {
-		answer += *iter.value * pow(x, *iter.Mystep);
+		Coef<T> tmp = *iter;
+		answer += tmp.value * T(pow(x, (tmp.Mystep)));
 	}
 	return answer;
 }
 template <typename T>
-Polynominal<T> Polynominal<T>::operator+(Polynominal& other)const {
+Polynominal<T> Polynominal<T>::operator+(Polynominal<T>& other)const {
 	auto this_it = this->cbegin();
 	auto other_it = other.cbegin();
 	int max = maximum(this->step, other.step);
 	Polynominal tmp(max);
-	while ((this_it != this->cend()) || (other_it != other_it.cend()))
+	while ((this_it != this->cend()) || (other_it != other.cend()))
 	{
 		if ((*this_it).Mystep == (*other_it).Mystep) {
 			tmp.set_coef((*this_it).value + (*other_it).value, (*this_it).Mystep);
@@ -69,12 +93,12 @@ Polynominal<T> Polynominal<T>::operator+(Polynominal& other)const {
 }
 
 template <typename T>
-Polynominal<T> Polynominal<T>::operator-(Polynominal& other)const {
+Polynominal<T> Polynominal<T>::operator-(Polynominal<T>& other)const {
 	auto this_it = this->cbegin();
 	auto other_it = other.cbegin();
 	int max = maximum(this->step, other.step);
 	Polynominal tmp(max);
-	while ((this_it != this->cend()) || (other_it != other_it.cend()))
+	while ((this_it != this->cend()) || (other_it != other.cend()))
 	{
 		if ((*this_it).Mystep == (*other_it).Mystep) {
 			tmp.set_coef((*this_it).value - (*other_it).value, (*this_it).Mystep);
@@ -93,6 +117,7 @@ Polynominal<T> Polynominal<T>::operator-(Polynominal& other)const {
 	return tmp;
 }
 
+
 template <typename T>
 Polynominal<T> Polynominal<T>::operator *(T multiplier)const {
 	Polynominal<T> newPoly(this->step);
@@ -106,14 +131,13 @@ Polynominal<T> Polynominal<T>::operator *(T multiplier)const {
 template <typename T>
 int Polynominal<T>::equation_roots(T*& arr)const {
 	auto iter = this->cbegin();
-	Coef<T> tmp;
 	if (this->step == 2)
 	{
 		T coef_s0 = T(0);
 		T coef_s1 = T(0);
 		T coef_s2 = T(0);
 		while (iter != cend()) {
-			tmp = *iter;
+			Coef<T> tmp = *iter;
 			if (tmp.Mystep == 0) {
 				coef_s0 = tmp.value;
 			}
@@ -154,7 +178,7 @@ int Polynominal<T>::equation_roots(T*& arr)const {
 		T coef_s0 = T(0);
 		T coef_s1 = T(0);
 		while (iter != cend()) {
-			tmp = *iter;
+			Coef<T> tmp = *iter;
 			if (tmp.Mystep == 0) {
 				coef_s0 = tmp.value;
 			}
@@ -187,6 +211,6 @@ int Polynominal<T>::equation_roots(T*& arr)const {
 template class Polynominal<int>;
 template class Polynominal<float>;
 template class Polynominal<double>;
-//template class Polynominal<complex<float>>;
-//template class Polynominal<complex<double>>;
+template class Polynominal<complex<float>>;
+template class Polynominal<complex<double>>;
 
