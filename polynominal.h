@@ -43,14 +43,14 @@ public:
 	auto crend() const { return data.crend(); }
 	Polynominal(int step);
 
-	//Polynominal(Polynominal& other) const;
-	~Polynominal();
+	Polynominal(Polynominal& other) const = default;
+	~Polynominal() = default;
 	void set_coef(T value, int i);
 	Polynominal operator +(Polynominal<T>& other)const;
 	Polynominal operator -(Polynominal<T>& other)const;
 	Polynominal operator *(T multiplier) const;
 	T valueX(T x)const;
-	T operator[](int i)const;
+	T operator[](int i)const; 
 	int equation_roots(T*& arr) const;
 	friend ostream& operator << (ostream& os, const Polynominal<T> poly) {
 		;
